@@ -295,5 +295,39 @@ sudo ifconfig eth0 10.10.10.10 netmask 255.255.255.0 up
 sudo route add default gw 10.10.10.1
 
 PHLINUX
-sudo ipconfig eth0 10.20.20.20 netmask 255.255.255.0 up
+sudo ifconfig eth0 10.20.20.20 netmask 255.255.255.0 up
 sudo route add default gw 10.20.20.1
+
+Configure jPNVPN and PHVPN
+PHVPN
+conf t
+int gi 1
+no shut
+ip add dhcp
+int gi 2
+ip add 200.0.0.01 255.255.255.0
+no shut
+int gi 3
+ip add 10.10.1.1 255.255.255.0
+end
+JPNVPN
+conf t
+int gi 1
+no shut
+ip add dhcp
+int gi 2
+ip add 200.0.0.01 255.255.255.0
+no shut
+int gi 3
+ip add 10.10.1.1 255.255.255.0
+end
+
+
+Step2: Configure jpvpn/phvpn for Basic IP address:
+config t
+no logging console
+no ip domain-lookup
+int gi 2
+no shut
+ip add 192.168.102.10 255.255.255.0
+do sh ip int brief
