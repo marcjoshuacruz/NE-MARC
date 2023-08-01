@@ -301,27 +301,46 @@ sudo route add default gw 10.20.20.1
 Configure jPNVPN and PHVPN
 PHVPN
 conf t
+no logging console
+no ip domain-lookup
 int gi 1
 no shut
 ip add dhcp
 int gi 2
-ip add 200.0.0.01 255.255.255.0
+ip add 200.0.0.20 255.255.255.0
 no shut
 int gi 3
-ip add 10.10.1.1 255.255.255.0
+ip add 10.20.20.1 255.255.255.0
 end
+
 JPNVPN
+no logging console
+no ip domain-lookup
 conf t
 int gi 1
 no shut
 ip add dhcp
 int gi 2
-ip add 200.0.0.01 255.255.255.0
+ip add 200.0.0.10 255.255.255.0
 no shut
 int gi 3
-ip add 10.10.1.1 255.255.255.0
+ip add 10.10.10.1 255.255.255.0
 end
 
+Step2: Configure jpvpn/phvpn for Basic IP address:
+config t
+no logging console
+no ip domain-lookup
+int gi 2
+no shut
+ip add 192.168.102.10 255.255.255.0
+do sh ip int brief
+
+pag nakuha na yung dhcp sa gi 2 ilipat sa manual or gawing static yung dhcp
+using 
+conf t
+int gi 2
+ip add  ________________________
 
 Step2: Configure jpvpn/phvpn for Basic IP address:
 config t
