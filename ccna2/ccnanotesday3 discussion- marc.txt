@@ -316,7 +316,6 @@ end
 JPNVPN
 no logging console
 no ip domain-lookup
-conf t
 int gi 1
 no shut
 ip add dhcp
