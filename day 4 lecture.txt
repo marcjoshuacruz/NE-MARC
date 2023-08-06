@@ -1,0 +1,479 @@
+Day 4: network cyber security fundamentals
+task : paper will change your life:
+OSI mastery = impressive job interview :
+
+
+TASK 2 Fundamental of cisco security:
+what you need to know :
+
+conf t
+username admin privilege 15 secret pass
+ip http server
+ip http secure-server
+do wr
+
+task 3: introduction to cisco firewall :
+firewall : anything unfair:
+Cisco firewall:
+Level1 : Standard ACL
+Level2 : extended ACL --> CCNA
+Level3 : zone base FW ACL --> CCNPSec
+Level4 : ASA Firewall --> CCNPSec
+Level5: Firepower Firewall --> CCNPsec
+Cisco ASA/FTD=PaloAlto,Fortinet,Checkpoint
+	14th Choice : sophos
+	Dukha/Hl: pfsense,
+
+Cisco Standard ACL: block/permits
+Source IP Address:
+Rule1 : to be safe Block all ip address of 
+"GAGONG BANSA": NK, RUS, CHINA, Nigeria,
+                Israel:
+
+example1 : create a standard acl(1-99) policy to block other colum:
+@EDGE :
+conf t
+no access-list 1
+access-list 1 deny 10.11.0.0 0.0.255.255
+access-list 1 deny 10.21.0.0 0.0.255.255
+access-list 1 deny 10.31.0.0 0.0.255.255
+access-list 1 deny 10.41.0.0 0.0.255.255
+access-list 1 deny 10.51.0.0 0.0.255.255
+access-list 1 deny 10.61.0.0 0.0.255.255
+access-list 1 perm any
+int gi 0/0/1
+ip access-group 1 in
+do sh ip access-list 1
+
+TROPA LAHAT ULIT
+conf t
+int gi 0/0/1
+NO ip access-group 1 in
+do sh ip access-list 1
+
+ex 2:
+conf t
+no access-list 2
+access-list 2 deny 10.41.0.0 0.0.255.255
+access-list 2 deny 10.42.0.0 0.0.255.255
+access-list 2 deny 10.52.0.0 0.0.255.255
+access-list 2 deny 10.52.0.0 0.0.255.255
+access-list 2 deny 10.61.0.0 0.0.255.255
+access-list 2 deny 10.62.0.0 0.0.255.255
+access-list 2 perm any
+int gi 0/0/1
+ip access-group 2 in
+do sh ip access-list 2
+
+ex 3:
+conf t
+no access-list 3
+access-list 3 deny 10.31.0.0 0.0.255.255
+access-list 3 deny 10.32.0.0 0.0.255.255
+access-list 3 deny 10.41.0.0 0.0.255.255
+access-list 3 deny 10.42.0.0 0.0.255.255
+access-list 3 deny 10.51.0.0 0.0.255.255
+access-list 3 deny 10.52.0.0 0.0.255.255
+access-list 3 deny 10.61.0.0 0.0.255.255
+access-list 3 deny 10.62.0.0 0.0.255.255
+access-list 3 perm any
+int gi 0/0/1
+ip access-group 3 in
+do sh ip access-list 3
+
+if konti permit dami deny
+conf t
+no access-list 4
+access-list 4 permit 10.11.0.0 0.0.255.255
+int gi 0/0/1
+ip access-group 4 in
+do sh ip access-list 4
+
+friends:
+int gi 0/0/1
+no ip access-group 4 in
+do sh ip access-list 4
+
+Ex5:
+conf t
+no access-list 5
+access-list 5 permit 10.22.0.0 0.0.255.255
+access-list 5 permit 10.32.0.0 0.0.255.255
+int gi 0/0/1
+ip access-group 5 in
+do sh ip access-list 5
+
+friends:
+int gi 0/0/1
+no ip access-group 5 in
+do sh ip access-list 5
+
+TASK4: HOW TO START A CAREER IN NETWORK CYBERSECURITY FOR FREE!!
+intentionally hackable websites
+1. Hack The Box
+2. CTFlearn
+3. bWAPP
+4. HackThisSite
+5. Google Gruyere
+6. Damn Vulnerable iOS App - DVIA
+7. Hellbound Hackers
+8. OWASP Mutillidae II
+9. HackThis!!
+
+task6: How to Make CUCM intentionally hackable to Learn
+the Basics for Firewalls.
+before: nmap -v 10.12.100.8
+@Cucm:
+config t
+int fa 0/0
+ ip add 10.12.100.9 255.255.255.0 Secondary
+service finger
+service tcp-small-servers
+service udp-small-servers
+ip dns server
+ip http server
+ip http secure-server
+!Make Ping EASY
+ip host pc 10.12.1.10
+ip host cm 10.12.100.8
+ip host cm2 10.12.100.9
+ip host p1 10.12.100.103
+ip host p2 10.12.100.104
+ip host sw 10.12.1.4
+ip host ed 10.12.12.1
+
+
+Task7: Cisco packet filter firewall
+extended access -control list:100 -199
+
+example1: create a firewall policy to allow these business requirements
+cm allow http, dns, telnet only
+cm2 allow ssh, dns,
+Formula		Protocol	Hacker	Victim	Port:
+@cumc: tcp,udp,icmp,IP
+conf t
+no access-list 100
+access-list 100 permit tcp Any host cm eq 80
+access-list 100 permit tcp Any host cm eq 23
+access-list 100 permit tcp Any host cm eq 2000
+access-list 100 permit tcp Any host cm2 eq 22
+access-list 100 permit tcp Any host cm2 eq 53
+access-list 100 permit icmp Any host cm2
+int fa 0/0
+no ip access-group 100 in
+end
+
+no FW:
+conf t
+int fa 0/0
+no ip access-group 100 in
+end
+
+example2:
+example1: create a firewall policy to allow these business requirements
+cm allow domain, ssh, sccp
+cm2 allow http, https, finger = 7lines
+Formula		Protocol	Hacker	Victim	Port:
+conf t
+no access-list 101
+access-list 101 permit tcp Any host cm eq 53
+access-list 101 permit tcp Any host cm eq 22
+access-list 101 permit tcp Any host cm eq 2000
+access-list 101 permit udp Any host cm eq 53
+access-list 101 permit tcp Any host cm2 eq 443
+access-list 101 permit tcp Any host cm2 eq 73
+access-list 101 permit tcp Any host cm2 
+int fa 0/0
+no ip access-group 101 in
+end
+
+
+ex3. create a firelwall policy to
+allow
+cm telnet,ssh
+cm2 https,http,finger,sccp
+conf t
+no access-list 102
+access-list 102 permit tcp Any host cm eq 23
+access-list 102 permit tcp Any host cm eq 22
+access-list 102 permit tcp Any host cm eq 443
+access-list 102 permit tcp Any host cm eq 80
+access-list 102 permit tcp Any host cm2 eq 79
+access-list 102 permit tcp Any host cm2 eq 2000
+access-list 101 permit tcp Any host cm2 
+int fa 0/0
+no ip access-group 102 in
+end
+
+
+7/tcp    open  echo
+9/tcp    open  discard
+13/tcp   open  daytime
+19/tcp   open  chargen
+22/tcp   open  ssh
+23/tcp   open  telnet
+53/tcp   open  domain
+79/tcp   open  finger
+80/tcp   open  http
+443/tcp  open  https
+1720/tcp open  h323q931
+2000/tcp open  cisco-sccp
+2002/tcp open  globe
+4002/tcp open  mlchat-proxy
+5060/tcp open  sip
+5061/tcp open  sip-tls
+6002/tcp open  X11:2
+9002/tcp open  dynamid
+
+ex4:
+example4: create a firewall policy to allow these business requirements
+cm allow ping,web,sccp,dns
+cm2 allowes telnet,ssh,finger,chargen
+conf t
+no access-list 104
+access-list 104 permit icmp Any host cm
+access-list 104 permit tcp Any host cm eq 443
+access-list 104 permit tcp Any host cm eq 80
+access-list 104 permit tcp Any host cm eq 2000
+access-list 104 permit udp Any host cm eq 53
+access-list 104 permit tcp Any host cm eq 53
+access-list 104 permit tcp Any host cm2 eq 23
+access-list 104 permit tcp Any host cm2 eq 22
+access-list 104 permit tcp Any host cm2 eq 79
+access-list 104 permit tcp Any host cm2 eq 19
+int fa 0/0
+ip access-group 104 in
+end
+
+
+Friends:
+int fa 0/0
+no ip access-group 104 in
+end
+
+Example Question: use acl 105:
+create a fw policy to allow these conditions
+hackers: p1,p2,sw,pc victim cm, cm2
+firewall policy
+- p1 can sccp cm
+- p2 can ping cm
+- pc can telnet,ssh,web cm
+- sw can ping,web cm
+7 firewall lines
+
+7/tcp    open  echo
+9/tcp    open  discard
+13/tcp   open  daytime
+19/tcp   open  chargen
+22/tcp   open  ssh
+23/tcp   open  telnet
+53/tcp   open  domain
+79/tcp   open  finger
+80/tcp   open  http
+443/tcp  open  https
+1720/tcp open  h323q931
+2000/tcp open  cisco-sccp
+2002/tcp open  globe
+4002/tcp open  mlchat-proxy
+5060/tcp open  sip
+5061/tcp open  sip-tls
+6002/tcp open  X11:2
+9002/tcp open  dynamid
+
+conf t
+no access-list 105
+access-list 105 permit tcp p1 host cm eq 2000
+access-list 105 permit icmp p2 host cm
+access-list 105 permit tcp pc host cm eq 23
+access-list 105 permit tcp pc host cm eq 22
+access-list 105 permit tcp pc host cm eq 80
+access-list 105 permit icmp host sw cm
+access-list 105 permit tcp host sw cm eq 80
+int fa 0/0
+no ip access-group 105 in
+end
+
+Example6:
+create a fw policy to allow these conditions
+hackers: p1,p2,sw,pc victim cm, cm2
+firewall policy
+- p1 can ping cm
+- p2 can sccp cm
+- pc can domain,finger,sip cm
+- 10.m.100.4 can ping cm
+- 10.m.100.4 can web cm2
+
+conf t
+no access-list 106
+access-list 106 permit tcp p2 host cm eq 2000
+access-list 106 permit icmp p1 host cm
+access-list 106 permit tcp pc host cm eq 53
+access-list 106 permit tcp pc host cm eq 79
+access-list 106 permit tcp pc host cm eq 5060
+access-list 106 permit icmp host 10.12.100.4 host cm
+access-list 106 permit tcp host 10.12.100.4 host cm2 eq 80
+int fa 0/0
+ip access-group 106 in
+end
+
+conf t
+int fa 0/0
+no ip access-group 106 in
+end
+
+example 7
+conf t
+no access-list 1
+access-list 6 permit 10.22.0.0 0.0.255.255
+access-list 6 permit 10.32.0.0 0.0.255.255
+access-list 6 perm any
+int gi 0/0/1
+ip access-group 1 in
+do sh ip access-list 1
+
+conf t
+int fa 0/0
+ip access-list 6 in
+end
+
+conf t
+no access-list 7
+access-list 7 permit 10.11.0.0 0.0.255.255
+access-list 7 permit 10.21.0.0 0.0.255.255
+access-list 7 permit 10.22.0.0 0.0.255.255
+access-list 7 permit 10.31.0.0 0.0.255.255
+access-list 7 permit 10.32.0.0 0.0.255.255
+access-list 7 perm any
+int gi 0/0/1
+ip access-group 1 in
+do sh ip access-list 7
+
+
+Friends ulit:
+conf t
+int gi 0/0/1
+NO ip access-group 7 in
+do sh ip access-list 7
+
+
+TASK5: REVIEW:
+Standard ACL: blocks/permit Ipaddress Ipaddress
+extended ACL: blk/permit ipadd, ports
+ACL also is used to implement: site to site VPN:
+
+TASK6: EXAM QUESTION 5 in 1:
+1. DHCP  serverrrrrr
+2. accesslist
+3. network protocol
+4. ssh
+5. NAT: static network address translation
+
+exam 1: create a pool named
+EXAM5and1:
+pool for vm2: 192.168.102.151 -0200
+conf t
+line vty 0 14
+exec-timeout 0 0
+ip dhcp excluded-add 192.168.102.1 192.168.102.150
+ip dhcp pool pool2
+network 192.168.102.0 255.255.255.0
+default router 192.168.102.8
+domain-name rivanit.com
+dns-server 8.8.8.8
+exit
+int gi 2
+no shut
+ip add 192.168.102.8 255.255.255.0
+end
+
+ExamLAbno2:
+create an accesslist-list so that
+
+192.168.102.151 can ping,ssh 192.168.103.8
+192.168.102.151 can web, https 192.168.103.8
+@exam5in1
+conf t
+no access-list 100
+access-list 100 perm icmp ho 192.168.102.151 ho 192.168.103.8
+access-list 100 perm tcp ho 192.168.102.151 ho 192.168.103.8 eq 22
+access-list 100 perm tcp ho 192.168.102.151 ho 192.168.103.8 eq 80
+access-list 100 perm tcp ho 192.168.102.151 ho 192.168.103.8 eq 443
+int gi 3
+ip access-group 100 out
+
+
+
+EXamlabno3: network address translation
+
+configure NAT so that all linux devices
+can have internet:
+step1 : give fast internet to 5in1
+conf t
+ip route 0.0.0.0 0.0.0.0 192.168.108.2
+ip domain-lookup
+ip name-server 8.8.8.8 1.1.1.1
+do ping www.nba.com
+
+step 2: create a standard ACL to allow all linux
+conf t
+access-list 5 permit 192.168.102.0 0.0.0.255
+access-list 5 permit 192.168.103.0 0.0.0.255
+
+step3:
+create a static NAT pool and overload:
+inside:local 		inside:global:
+192.168.102.151		192.168.108.69
+192.168.102.152		192.168.108.88
+192.168.103.8		192.168.108.__
+
+conf t
+ip nat inside source static 192.168.102.151 192.168.108.69
+ip nat inside source static 192.168.102.152 192.168.108.88
+ip nat inside source list 5 int gi 1 overload
+
+step4: define NAT inside / NAT outside
+conf t
+int gi 1
+IP NAT OUTSIDE
+int gi 2
+IP NAT INSIDE
+int gi 3
+IP NAT INSIDE
+
+
+EXamlab4: Network time protocol
+EXAM5in1#show clock
+*14:57:30.004 UTC Sun Aug 6 2023
+configure your router to use american pacific standrd time:
+Time Server : time.google.com
+conf t
+ntp server time.google.com
+end
+sh ntp association
+sh clock
+------
+EXAM5in1#sh clock
+*07:00:02.387 UTC Sun Aug 6 2023
+EXAM5in1#
+
+conf t
+ntp server cn.pool.ntp.org
+end
+sh ntp association
+sh clock
+
+examlab.5 : secure shell/ssh protocol:
+Telnet is BAD !! NOT SECURE !!
+
+how to configured ssh:
+conf t
+ip domain-name secure.com
+crypto key generate rsa
+	???512 xxx, 1024
+ip ssh version 2
+username ssh privilege 15 secret pass
+line vty 0 14
+login local
+
+
+tASK 7: DEVOPS are formr network engineer
