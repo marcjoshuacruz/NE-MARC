@@ -1,0 +1,228 @@
+conf t
+vlan 100
+exit
+
+int fa0/2
+sw mode acess
+sw access vlan 100
+
+
+802.1Q -DTP - Dynamic Trunking Protocol
+trunk allows multiple vlan on single port
+conf t
+int range fa0/10 -12
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+SWITCH TAAS FIRST THE SWITCH BABA
+conf t
+spanning-tree vlan 1
+spanning-tree vlan 100
+
+802.1D - STP ( Spanning-Tree vlan 1 )
+Show spanning-tree vlan 1
+taas
+Switch(config)#do sh spanning-tree vlan 1
+
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0817.350e.1980
+             This bridge is the root
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0817.350e.1980
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  15  sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Fa0/1               Desg LRN 19        128.1    P2p 
+Fa0/10              Desg LRN 19        128.10   P2p 
+Fa0/11              Desg LRN 19        128.11   P2p 
+Fa0/12              Desg LRN 19        128.12   P2p 
+
+
+baba
+COREbaba12(config)#do sh spanning-tree vlan 1
+
+VLAN0001
+  Spanning tree enabled protocol ieee
+  Root ID    Priority    32769
+             Address     0817.350e.1980
+             Cost        19
+             Port        10 (FastEthernet0/10)
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+
+  Bridge ID  Priority    32769  (priority 32768 sys-id-ext 1)
+             Address     0817.3510.c400
+             Hello Time   2 sec  Max Age 20 sec  Forward Delay 15 sec
+             Aging Time  300 sec
+
+Interface           Role Sts Cost      Prio.Nbr Type
+------------------- ---- --- --------- -------- --------------------------------
+Fa0/10              Root FWD 19        128.10   P2p 
+Fa0/11              Altn BLK 19        128.11   P2p 
+Fa0/12              Altn BLK 19        128.12   P2p 
+
+
+ELECTION OF ROOT BRIDGE / BOSS OF THE SWITCHES !
+1. Bridge Priority - 32768
+2. LOWEST MAC WINS
+
+conf t
+spanning-tree vlan 1 priority root-primary
+
+conf t
+spanning-tree vlan 1 root primary
+so sh
+
+ELECTION OF ROOT PORT ( The LOWEST WIN)
+1. Port Priority - 128 default
+2. COST ( Giga - 4 ) , (FE - 19 )
+3. Port Number 
+
+
+
+802.1W - RSTP  (Rapid STP)
+
+ROOT BRIDGE
+conf t
+spanning-tree mode rapid-pvst
+spanning-tree backbonefast
+interface range fa 0/1 - 8
+switchport mode access
+spanning-tree portfast
+
+ALALAY/NON-ROOT
+
+conf t
+spanning-tree mode rapid-pvst
+spanning-tree uplinkfast
+interface range fa 0/1 - 8
+switchport mode access
+spanning-tree portfast
+
+
+PORT SECURITY
+conf t
+int fa0/1
+switchport port-security
+switchport port-security mac-address sticky
+switchport port-security maximum 1
+switchport port-security violation shutdown
+end
+
+sh port-security address
+sh int status err-disable
+conf t
+int fa0/1
+shut
+no shut
+
+(1 port different VLAN)
+int fa0/4
+sw access vlan 1
+sw voice vlan 100
+
+int fa0/4
+switchport mode access
+switchport access vlan 100
+
+ETHERCHANNEL - for both switches
+
+conf t
+int range fa0/10 - 12
+shut
+channel-group 1 mode active
+channel-protocol lacp
+no shut
+int port-channel 1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+sh etherchannel summary
+sh int po1 | inc BW
+
+SWTAAS/ SWBABA / EDGE
+erase startup-config
+reload
+
+
+__________________________________________________________
+
+
+conf t
+int range fa0/7 - 10
+switchport trunk encapsulation dot1q
+switchport mode trunk
+sh int trunk
+
+CORE : 3TRUNKS
+ACCESS : 2 TRUNKS
+
+CORE :
+conf t
+int vlan 1
+no shutdown
+ip address 10.0.0.1 255.0.0.0
+
+int fa0/12
+no switchport
+ip address 100.0.0.1 255.255.255.0
+exit
+ip routing
+router eigrp 100
+no auto-summary
+network 10.0.0.0
+network 100.0.0.0
+end
+
+EDGE router
+conf t
+hostname ISProuter
+int giga0/0/0
+no shut
+ip address 100.0.0.2 255.255.255.0
+int giga0/0/1
+no shut
+ip address 200.0.0.2 255.255.255.0
+int loopback 0
+ip address 8.8.8.8 255.255.255.255
+router eigrp 100
+no auto-summary
+network 100.0.0.0
+network 200.0.0.0
+network 8.8.8.8
+end
+
+conf t
+int vlan 1
+shut
+
+HSRP ( Hot Standby Routing Protocol)
+CORE1/2
+conf t
+int vlan 1
+ip address 10.0.0.3 255.0.0.0
+standby 1 ip 10.0.0.1
+standby 1 preempt
+standby 1 priority 150
+end
+
+sh standby brief ( yan ang lalabas )
+Interface   Grp  Pri P State   Active          Standby         Virtual IP
+Vl1         1    150 P Init    unknown         unknown         10.0.0.1
+
+conf t
+int vlan 1
+shut or no shut
+
+
+VRRP - GLBP -
+SLA config
+
+
+
+
